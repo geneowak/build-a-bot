@@ -2,9 +2,9 @@
   <div class="content">
     <button class="add-to-cart" @click="addToCart()">Add to Cart</button>
     <div class="top-row">
-      <div class="top part">
+      <div :class="[saleBorderClass, 'top', 'part']">
         <div class="robot-name">
-          {{selectedRobot.head.title}}
+          {{ selectedRobot.head.title }}
           <span v-if="selectedRobot.head.onSale" class="sale">On sale</span>
         </div>
         <img :src="selectedRobot.head.src" title="head" />
@@ -47,8 +47,8 @@
         </thead>
         <tbody>
           <tr :key="index" v-for="(robot, index) in cart">
-            <td>{{robot.head.title}}</td>
-            <td class="cost">{{robot.cost}}</td>
+            <td>{{ robot.head.title }}</td>
+            <td class="cost">{{ robot.cost }}</td>
           </tr>
           <tr></tr>
         </tbody>
@@ -59,6 +59,7 @@
 
 <script>
 import avalaibleParts from '../data/parts';
+import CreatedHookMixin from './created-hook-mixin';
 
 const getPreviousValidIndex = (index, length) => {
   const decrementedIndex = index - 1;
@@ -81,7 +82,18 @@ export default {
       selectedBaseIndex: 0,
     };
   },
+  mixins: [CreatedHookMixin],
   computed: {
+    saleBorderClass() {
+      return this.selectedRobot.head.onSale ? 'sale-border' : '';
+    },
+    headBorderStyle() {
+      return {
+        border: this.selectedRobot.head.onSale
+          ? '3px solid red'
+          : '3px solid #aaa',
+      };
+    },
     selectedRobot() {
       return {
         leftArm: avalaibleParts.arms[this.selectedLeftArmIndex],
@@ -180,15 +192,17 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 .part {
   position: relative;
   width: 165px;
   height: 165px;
   border: 3px solid #aaa;
 }
-.part img {
-  width: 165px;
+.part {
+  img {
+    width: 165px;
+  }
 }
 .top-row {
   display: flex;
@@ -241,7 +255,7 @@ export default {
 .center .next-selector {
   opacity: 0.8;
 }
-.left .prev-selector {
+.lrobot-name robot-nameeft .prev-selector {
   top: -28px;
   left: -3px;
   width: 144px;
@@ -297,5 +311,8 @@ th {
 }
 .cost {
   text-align: right;
+}
+.sale-border {
+  border: 3px solid red;
 }
 </style>
