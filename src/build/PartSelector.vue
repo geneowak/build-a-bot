@@ -3,7 +3,7 @@
     <router-link
       :to="{
         name: 'Parts',
-        params: { id: this.selectedPart.id, partType: this.selectedPart.type },
+        params: { id: this.selectedPart.id, partType: this.selectedPart.type }
       }"
     >
       <img :src="selectedPart.src" title="arm" />
@@ -33,8 +33,8 @@ export default {
       required: true,
       validator(value) {
         return ['left', 'right', 'top', 'bottom', 'center'].includes(value);
-      },
-    },
+      }
+    }
   },
   data() {
     return { selectedPartIndex: 0 };
@@ -42,7 +42,7 @@ export default {
   computed: {
     selectedPart() {
       return this.parts[this.selectedPartIndex];
-    },
+    }
   },
   created() {
     this.emitSelectedPart();
@@ -55,18 +55,12 @@ export default {
       this.$emit('partSelected', this.selectedPart);
     },
     selectNextPart() {
-      this.selectedPartIndex = getNextValidIndex(
-        this.selectedPartIndex,
-        this.parts.length,
-      );
+      this.selectedPartIndex = getNextValidIndex(this.selectedPartIndex, this.parts.length);
     },
     selectPreviousPart() {
-      this.selectedPartIndex = getPreviousValidIndex(
-        this.selectedPartIndex,
-        this.parts.length,
-      );
-    },
-  },
+      this.selectedPartIndex = getPreviousValidIndex(this.selectedPartIndex, this.parts.length);
+    }
+  }
 };
 </script>
 
@@ -134,21 +128,21 @@ export default {
 }
 .left .prev-selector:after,
 .right .prev-selector:after {
-  content: "\25B2";
+  content: '\25B2';
 }
 .left .next-selector:after,
 .right .next-selector:after {
-  content: "\25BC";
+  content: '\25BC';
 }
 .top .prev-selector:after,
 .bottom .prev-selector:after,
 .center .prev-selector:after {
-  content: "\25C4";
+  content: '\25C4';
 }
 .top .next-selector:after,
 .bottom .next-selector:after,
 .center .next-selector:after {
-  content: "\25BA";
+  content: '\25BA';
 }
 .center .prev-selector,
 .center .next-selector {

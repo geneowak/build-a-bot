@@ -5,7 +5,7 @@
     </div>
     <div class="get-started">
       <router-link to="/build">Get started</router-link>
-      {{' '}}building your first robot!
+      {{ ' ' }}building your first robot!
     </div>
   </div>
 </template>
@@ -14,8 +14,8 @@
 export default {
   name: 'HomePage',
   props: {
-    msg: String,
-  },
+    msg: String
+  }
 };
 </script>
 

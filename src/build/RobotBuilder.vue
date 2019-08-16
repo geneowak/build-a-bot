@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div v-if="availableParts" class="content">
     <div class="preview">
       <CollapsibleSection>
         <div class="preview-content">
@@ -24,64 +24,49 @@
           <span v-if="selectedRobot.head.onSale" class="sale">On sale</span>
       </div>-->
       <PartSelector
-        :parts="avalaibleParts.heads"
+        :parts="availableParts.heads"
         position="top"
-        @partSelected="part=>selectedRobot.head=part"
+        @partSelected="part => (selectedRobot.head = part)"
       />
     </div>
     <div class="middle-row">
       <PartSelector
-        :parts="avalaibleParts.arms"
+        :parts="availableParts.arms"
         position="left"
-        @partSelected="part=>selectedRobot.leftArm=part"
+        @partSelected="part => (selectedRobot.leftArm = part)"
       />
       <PartSelector
-        :parts="avalaibleParts.torsos"
+        :parts="availableParts.torsos"
         position="center"
-        @partSelected="part=>selectedRobot.torso=part"
+        @partSelected="part => (selectedRobot.torso = part)"
       />
       <PartSelector
-        :parts="avalaibleParts.arms"
+        :parts="availableParts.arms"
         position="right"
-        @partSelected="part=>selectedRobot.rightArm=part"
+        @partSelected="part => (selectedRobot.rightArm = part)"
       />
     </div>
     <div class="bottom-row">
       <PartSelector
-        :parts="avalaibleParts.bases"
+        :parts="availableParts.bases"
         position="bottom"
-        @partSelected="part=>selectedRobot.base=part"
+        @partSelected="part => (selectedRobot.base = part)"
       />
-    </div>
-    <div>
-      <h1>Cart</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Robot</th>
-            <th class="cost">Cost</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr :key="index" v-for="(robot, index) in cart">
-            <td>{{ robot.head.title }}</td>
-            <td class="cost">{{ robot.cost }}</td>
-          </tr>
-          <tr></tr>
-        </tbody>
-      </table>
     </div>
   </div>
 </template>
 
 <script>
 import PartSelector from './PartSelector.vue';
-import avalaibleParts from '../data/parts';
 import CreatedHookMixin from './created-hook-mixin';
 import CollapsibleSection from '../shared/CollapsibleSection.vue';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'RobotBuilder',
+  created() {
+    this.getParts();
+  },
   beforeRouteLeave(to, from, next) {
     if (this.addedToCart) {
       next(true);
@@ -89,7 +74,7 @@ export default {
       /* eslint no-alert: 0 */
       /* eslint no-restricted-globals: 0 */
       const response = confirm(
-        'You have not added your robot to your cart, are you sure you want to leave?',
+        'You have not added your robot to your cart, are you sure you want to leave?'
       );
       next(response);
     }
@@ -97,7 +82,6 @@ export default {
   components: { PartSelector, CollapsibleSection },
   data() {
     return {
-      avalaibleParts,
       addedToCart: false,
       cart: [],
       selectedRobot: {
@@ -105,35 +89,40 @@ export default {
         rightArm: {},
         torso: {},
         base: {},
-        head: {},
-      },
+        head: {}
+      }
     };
   },
   mixins: [CreatedHookMixin],
   computed: {
+    availableParts() {
+      return this.$store.state.robots.parts;
+    },
     saleBorderClass() {
       return this.selectedRobot.head.onSale ? 'sale-border' : '';
     },
     headBorderStyle() {
       return {
-        border: this.selectedRobot.head.onSale
-          ? '3px solid red'
-          : '3px solid #aaa',
+        border: this.selectedRobot.head.onSale ? '3px solid red' : '3px solid #aaa'
       };
-    },
+    }
   },
   methods: {
+    ...mapActions('robots', ['getParts', 'addRobotToCart']),
     addToCart() {
       const robot = this.selectedRobot;
-      const cost = robot.head.cost
-        + robot.leftArm.cost
-        + robot.rightArm.cost
-        + robot.torso.cost
-        + robot.base.cost;
-      this.cart.push(Object.assign({}, robot, { cost }));
+      const cost =
+        robot.head.cost +
+        robot.leftArm.cost +
+        robot.rightArm.cost +
+        robot.torso.cost +
+        robot.base.cost;
+      this.addRobotToCart(Object.assign({}, robot, { cost })).then(() =>
+        this.$router.push('/cart')
+      );
       this.addedToCart = true;
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -246,15 +235,6 @@ export default {
   width: 210px;
   padding: 3px;
   font-size: 16px;
-}
-td,
-th {
-  text-align: left;
-  padding: 5px;
-  padding-right: 20px;
-}
-.cost {
-  text-align: right;
 }
 .sale-border {
   border: 3px solid red;
