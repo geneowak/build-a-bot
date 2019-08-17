@@ -9,9 +9,9 @@ export default {
           heads: [],
           arms: [],
           torsos: [],
-          bases: []
+          bases: [],
         }
       );
-    }
-  }
+    },
+  },
 };

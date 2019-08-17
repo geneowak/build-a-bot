@@ -74,7 +74,7 @@ export default {
       /* eslint no-alert: 0 */
       /* eslint no-restricted-globals: 0 */
       const response = confirm(
-        'You have not added your robot to your cart, are you sure you want to leave?'
+        'You have not added your robot to your cart, are you sure you want to leave?',
       );
       next(response);
     }
@@ -89,8 +89,8 @@ export default {
         rightArm: {},
         torso: {},
         base: {},
-        head: {}
-      }
+        head: {},
+      },
     };
   },
   mixins: [CreatedHookMixin],
@@ -103,9 +103,9 @@ export default {
     },
     headBorderStyle() {
       return {
-        border: this.selectedRobot.head.onSale ? '3px solid red' : '3px solid #aaa'
+        border: this.selectedRobot.head.onSale ? '3px solid red' : '3px solid #aaa',
       };
-    }
+    },
   },
   methods: {
     ...mapActions('robots', ['getParts', 'addRobotToCart']),
@@ -118,11 +118,11 @@ export default {
         robot.torso.cost +
         robot.base.cost;
       this.addRobotToCart(Object.assign({}, robot, { cost })).then(() =>
-        this.$router.push('/cart')
+        this.$router.push('/cart'),
       );
       this.addedToCart = true;
-    }
-  }
+    },
+  },
 };
 </script>
 

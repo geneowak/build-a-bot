@@ -3,14 +3,17 @@
     <router-link
       :to="{
         name: 'Parts',
-        params: { id: this.selectedPart.id, partType: this.selectedPart.type }
+        params: { id: this.selectedPart.id, partType: this.selectedPart.type },
       }"
     >
       <img :src="selectedPart.src" title="arm" />
     </router-link>
     <button @click="selectPreviousPart()" class="prev-selector"></button>
     <button @click="selectNextPart()" class="next-selector"></button>
-    <span class="sale" v-show="selectedPart.onSale">Sale!</span>
+    <!-- <span v-pin:position.bottom.left class="sale" v-show="selectedPart.onSale">Sale!</span> -->
+    <span v-pin="{ bottom: '10px', right: '50px' }" class="sale" v-show="selectedPart.onSale"
+      >Sale!</span
+    >
   </div>
 </template>
 
@@ -33,8 +36,8 @@ export default {
       required: true,
       validator(value) {
         return ['left', 'right', 'top', 'bottom', 'center'].includes(value);
-      }
-    }
+      },
+    },
   },
   data() {
     return { selectedPartIndex: 0 };
@@ -42,7 +45,7 @@ export default {
   computed: {
     selectedPart() {
       return this.parts[this.selectedPartIndex];
-    }
+    },
   },
   created() {
     this.emitSelectedPart();
@@ -59,8 +62,8 @@ export default {
     },
     selectPreviousPart() {
       this.selectedPartIndex = getPreviousValidIndex(this.selectedPartIndex, this.parts.length);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -72,9 +75,6 @@ export default {
   border: 3px solid #aaa;
 }
 .sale {
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
   color: white;
   background-color: red;
   padding: 3px;

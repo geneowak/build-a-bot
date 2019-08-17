@@ -17,14 +17,14 @@ export default {
       type: [Number, String],
       validator(value) {
         return Number.isInteger(Number(value));
-      }
-    }
+      },
+    },
   },
   computed: {
     part() {
       const { partType, id } = this;
       return this.parts[partType].find(part => part.id === +id);
-    }
-  }
+    },
+  },
 };
 </script>

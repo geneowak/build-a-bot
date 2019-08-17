@@ -5,7 +5,7 @@ export default {
   state: {
     cart: [],
     parts: null,
-    foo: 'robots-foo'
+    foo: 'robots-foo',
   },
   mutations: {
     addRobotToCart(state, robot) {
@@ -13,7 +13,7 @@ export default {
     },
     updateParts(state, parts) {
       state.parts = parts;
-    }
+    },
   },
   getters: {
     cartSaleItems(state) {
@@ -21,7 +21,7 @@ export default {
     },
     foo(state) {
       return `robots-getter/${state.foo}`;
-    }
+    },
   },
   actions: {
     getParts({ commit }) {
@@ -33,6 +33,6 @@ export default {
     addRobotToCart({ commit, state }, robot) {
       const cart = [...state.cart, robot];
       return axios.post('/api/cart', cart).then(() => commit('addRobotToCart', robot));
-    }
-  }
+    },
+  },
 };

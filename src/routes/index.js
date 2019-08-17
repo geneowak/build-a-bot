@@ -23,16 +23,16 @@ export default new Router({
       name: 'Home',
       components: {
         default: HomePage,
-        sidebar: SidebarStandard
-      }
+        sidebar: SidebarStandard,
+      },
     },
     {
       path: '/build',
       name: 'Build',
       components: {
         default: RobotBuilder,
-        sidebar: SideBarBuild
-      }
+        sidebar: SideBarBuild,
+      },
     },
     {
       path: '/parts/browse',
@@ -42,24 +42,24 @@ export default new Router({
         {
           name: 'BrowseHeads',
           path: 'heads',
-          component: RobotHeads
+          component: RobotHeads,
         },
         {
           name: 'BrowseArms',
           path: 'arms',
-          component: RobotArms
+          component: RobotArms,
         },
         {
           name: 'BrowseTorsos',
           path: 'torsos',
-          component: RobotTorsos
+          component: RobotTorsos,
         },
         {
           name: 'BrowseBases',
           path: 'bases',
-          component: RobotBases
-        }
-      ]
+          component: RobotBases,
+        },
+      ],
     },
     {
       path: '/parts/:partType/:id',
@@ -69,12 +69,12 @@ export default new Router({
       beforeEnter(to, from, next) {
         const isValid = Number.isInteger(Number(to.params.id));
         next(isValid);
-      }
+      },
     },
     {
       path: '/cart',
       name: 'Cart',
-      component: ShoppingCart
-    }
-  ]
+      component: ShoppingCart,
+    },
+  ],
 });

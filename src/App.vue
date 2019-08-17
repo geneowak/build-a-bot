@@ -56,8 +56,8 @@ export default {
     ...mapGetters('robots', { robotsGetterFoo: 'foo' }),
     cart() {
       return this.$store.state.robots.cart;
-    }
-  }
+    },
+  },
 };
 </script>
 
